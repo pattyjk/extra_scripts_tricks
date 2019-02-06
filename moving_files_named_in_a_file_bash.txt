@@ -1,0 +1,5 @@
+mkdir pedio_genomes
+xargs mv -t pedio_genomes/ < pedio_genomes.txt
+
+#pedio_genomes/ is the destination
+#pedio_genomes.txt is a file that has a list of files you want to move in it

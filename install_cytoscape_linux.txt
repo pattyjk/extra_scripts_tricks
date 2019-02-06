@@ -1,0 +1,6 @@
+#install Java
+
+sudo apt-get install default-jdk
+
+sudo bash [.sh cytoscape file] 
+./Cytoscape_3_4_0_unix.sh 

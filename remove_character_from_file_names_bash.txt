@@ -1,0 +1,6 @@
+for i in *.fastq
+do
+mv "$i" "`echo $i | sed 's/-//'`"
+done
+
+#the '-' can be any character, for '.' you'd need to escape the period with '\'

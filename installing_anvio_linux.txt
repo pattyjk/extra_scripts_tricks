@@ -1,0 +1,16 @@
+#install Anaconda
+https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-16-04
+
+#install anvio with conda
+conda create -n anvio5 -c bioconda -c conda-forge python=3 anvio=5
+
+#test base install
+source activate anvio5
+anvi-self-test --suite mini
+
+#test for pangenome workflow
+ anvi-self-test --suite pangenomics
+
+
+
+
