@@ -1,0 +1,162 @@
+#this is done as a Linux shell script.
+#start by decalring the MAGs you want to use
+
+
+declare -a arr=("20141007_bin.1016.fa.txt"  "20141007_bin.325.fa.txt"  "20141007_bin.716.fa.txt"
+"20141007_bin.1033.fa.txt"  "20141007_bin.326.fa.txt"  "20141007_bin.734.fa.txt"
+"20141007_bin.1040.fa.txt"  "20141007_bin.335.fa.txt"  "20141007_bin.745.fa.txt"
+"20141007_bin.1042.fa.txt"  "20141007_bin.336.fa.txt"  "20141007_bin.74.fa.txt"
+"20141007_bin.1048.fa.txt"  "20141007_bin.33.fa.txt"   "20141007_bin.768.fa.txt"
+"20141007_bin.1051.fa.txt"  "20141007_bin.344.fa.txt"  "20141007_bin.771.fa.txt"
+"20141007_bin.105.fa.txt"   "20141007_bin.359.fa.txt"  "20141007_bin.778.fa.txt"
+"20141007_bin.1083.fa.txt"  "20141007_bin.35.fa.txt"   "20141007_bin.779.fa.txt"
+"20141007_bin.1111.fa.txt"  "20141007_bin.382.fa.txt"  "20141007_bin.795.fa.txt"
+"20141007_bin.1115.fa.txt"  "20141007_bin.40.fa.txt"   "20141007_bin.797.fa.txt"
+"20141007_bin.1122.fa.txt"  "20141007_bin.413.fa.txt"  "20141007_bin.802.fa.txt"
+"20141007_bin.1127.fa.txt"  "20141007_bin.432.fa.txt"  "20141007_bin.804.fa.txt"
+"20141007_bin.1147.fa.txt"  "20141007_bin.439.fa.txt"  "20141007_bin.809.fa.txt"
+"20141007_bin.1153.fa.txt"  "20141007_bin.455.fa.txt"  "20141007_bin.816.fa.txt"
+"20141007_bin.1160.fa.txt"  "20141007_bin.457.fa.txt"  "20141007_bin.821.fa.txt"
+"20141007_bin.1166.fa.txt"  "20141007_bin.459.fa.txt"  "20141007_bin.837.fa.txt"
+"20141007_bin.116.fa.txt"   "20141007_bin.468.fa.txt"  "20141007_bin.838.fa.txt"
+"20141007_bin.1172.fa.txt"  "20141007_bin.473.fa.txt"  "20141007_bin.842.fa.txt"
+"20141007_bin.1189.fa.txt"  "20141007_bin.47.fa.txt"   "20141007_bin.844.fa.txt"
+"20141007_bin.1196.fa.txt"  "20141007_bin.489.fa.txt"  "20141007_bin.852.fa.txt"
+"20141007_bin.1197.fa.txt"  "20141007_bin.520.fa.txt"  "20141007_bin.855.fa.txt"
+"20141007_bin.12.fa.txt"    "20141007_bin.544.fa.txt"  "20141007_bin.872.fa.txt"
+"20141007_bin.148.fa.txt"   "20141007_bin.547.fa.txt"  "20141007_bin.876.fa.txt"
+"20141007_bin.16.fa.txt"    "20141007_bin.557.fa.txt"  "20141007_bin.879.fa.txt"
+"20141007_bin.193.fa.txt"   "20141007_bin.559.fa.txt"  "20141007_bin.899.fa.txt"
+"20141007_bin.204.fa.txt"   "20141007_bin.575.fa.txt"  "20141007_bin.8.fa.txt"
+"20141007_bin.208.fa.txt"   "20141007_bin.577.fa.txt"  "20141007_bin.908.fa.txt"
+"20141007_bin.222.fa.txt"   "20141007_bin.579.fa.txt"  "20141007_bin.933.fa.txt"
+"20141007_bin.226.fa.txt"   "20141007_bin.586.fa.txt"  "20141007_bin.937.fa.txt"
+"20141007_bin.227.fa.txt"   "20141007_bin.593.fa.txt"  "20141007_bin.942.fa.txt"
+"20141007_bin.232.fa.txt"   "20141007_bin.594.fa.txt"  "20141007_bin.951.fa.txt"
+"20141007_bin.246.fa.txt"   "20141007_bin.600.fa.txt"  "20141007_bin.96.fa.txt"
+"20141007_bin.250.fa.txt"   "20141007_bin.616.fa.txt"  "20141007_bin.971.fa.txt"
+"20141007_bin.254.fa.txt"   "20141007_bin.631.fa.txt"  "20141007_bin.986.fa.txt"
+"20141007_bin.264.fa.txt"   "20141007_bin.656.fa.txt"  "20141007_bin.990.fa.txt"
+"20141007_bin.267.fa.txt"   "20141007_bin.671.fa.txt"  "20141007_bin.994.fa.txt"
+"20141007_bin.273.fa.txt"   "20141007_bin.682.fa.txt"  "20141007_bin.995.fa.txt"
+"20141007_bin.278.fa.txt"   "20141007_bin.694.fa.txt"
+"20141007_bin.286.fa.txt"   "20141007_bin.715.fa.txt")
+
+
+
+#pull out the headers from each of the MAGs, write to separate file. 
+
+
+
+for g in "${arr[@]}"
+do
+	grep -e ">" $g > contigs/$g.txt
+
+done
+
+
+
+#change directory to contigs folder
+cd contigs
+
+
+
+#merge contigs into one file
+
+
+cat * > all_contigs.txt
+
+
+
+#remove '>' from all lines (navigate to the folder with the .txt files from the for loop above)
+
+sed -e s/">"//g *
+
+
+
+
+#screen all the contigs
+
+#declare your files from the previous script
+
+
+
+
+declare -a arr2=("20141007_bin.1016.fa.txt"  "20141007_bin.325.fa.txt"  "20141007_bin.716.fa.txt"
+"20141007_bin.1033.fa.txt"  "20141007_bin.326.fa.txt"  "20141007_bin.734.fa.txt"
+"20141007_bin.1040.fa.txt"  "20141007_bin.335.fa.txt"  "20141007_bin.745.fa.txt"
+"20141007_bin.1042.fa.txt"  "20141007_bin.336.fa.txt"  "20141007_bin.74.fa.txt"
+"20141007_bin.1048.fa.txt"  "20141007_bin.33.fa.txt"   "20141007_bin.768.fa.txt"
+"20141007_bin.1051.fa.txt"  "20141007_bin.344.fa.txt"  "20141007_bin.771.fa.txt"
+"20141007_bin.105.fa.txt"   "20141007_bin.359.fa.txt"  "20141007_bin.778.fa.txt"
+"20141007_bin.1083.fa.txt"  "20141007_bin.35.fa.txt"   "20141007_bin.779.fa.txt"
+"20141007_bin.1111.fa.txt"  "20141007_bin.382.fa.txt"  "20141007_bin.795.fa.txt"
+"20141007_bin.1115.fa.txt"  "20141007_bin.40.fa.txt"   "20141007_bin.797.fa.txt"
+"20141007_bin.1122.fa.txt"  "20141007_bin.413.fa.txt"  "20141007_bin.802.fa.txt"
+"20141007_bin.1127.fa.txt"  "20141007_bin.432.fa.txt"  "20141007_bin.804.fa.txt"
+"20141007_bin.1147.fa.txt"  "20141007_bin.439.fa.txt"  "20141007_bin.809.fa.txt"
+"20141007_bin.1153.fa.txt"  "20141007_bin.455.fa.txt"  "20141007_bin.816.fa.txt"
+"20141007_bin.1160.fa.txt"  "20141007_bin.457.fa.txt"  "20141007_bin.821.fa.txt"
+"20141007_bin.1166.fa.txt"  "20141007_bin.459.fa.txt"  "20141007_bin.837.fa.txt"
+"20141007_bin.116.fa.txt"   "20141007_bin.468.fa.txt"  "20141007_bin.838.fa.txt"
+"20141007_bin.1172.fa.txt"  "20141007_bin.473.fa.txt"  "20141007_bin.842.fa.txt"
+"20141007_bin.1189.fa.txt"  "20141007_bin.47.fa.txt"   "20141007_bin.844.fa.txt"
+"20141007_bin.1196.fa.txt"  "20141007_bin.489.fa.txt"  "20141007_bin.852.fa.txt"
+"20141007_bin.1197.fa.txt"  "20141007_bin.520.fa.txt"  "20141007_bin.855.fa.txt"
+"20141007_bin.12.fa.txt"    "20141007_bin.544.fa.txt"  "20141007_bin.872.fa.txt"
+"20141007_bin.148.fa.txt"   "20141007_bin.547.fa.txt"  "20141007_bin.876.fa.txt"
+"20141007_bin.16.fa.txt"    "20141007_bin.557.fa.txt"  "20141007_bin.879.fa.txt"
+"20141007_bin.193.fa.txt"   "20141007_bin.559.fa.txt"  "20141007_bin.899.fa.txt"
+"20141007_bin.204.fa.txt"   "20141007_bin.575.fa.txt"  "20141007_bin.8.fa.txt"
+"20141007_bin.208.fa.txt"   "20141007_bin.577.fa.txt"  "20141007_bin.908.fa.txt"
+"20141007_bin.222.fa.txt"   "20141007_bin.579.fa.txt"  "20141007_bin.933.fa.txt"
+"20141007_bin.226.fa.txt"   "20141007_bin.586.fa.txt"  "20141007_bin.937.fa.txt"
+"20141007_bin.227.fa.txt"   "20141007_bin.593.fa.txt"  "20141007_bin.942.fa.txt"
+"20141007_bin.232.fa.txt"   "20141007_bin.594.fa.txt"  "20141007_bin.951.fa.txt"
+"20141007_bin.246.fa.txt"   "20141007_bin.600.fa.txt"  "20141007_bin.96.fa.txt"
+"20141007_bin.250.fa.txt"   "20141007_bin.616.fa.txt"  "20141007_bin.971.fa.txt"
+"20141007_bin.254.fa.txt"   "20141007_bin.631.fa.txt"  "20141007_bin.986.fa.txt"
+"20141007_bin.264.fa.txt"   "20141007_bin.656.fa.txt"  "20141007_bin.990.fa.txt"
+"20141007_bin.267.fa.txt"   "20141007_bin.671.fa.txt"  "20141007_bin.994.fa.txt"
+"20141007_bin.273.fa.txt"   "20141007_bin.682.fa.txt"  "20141007_bin.995.fa.txt"
+"20141007_bin.278.fa.txt"   "20141007_bin.694.fa.txt"
+"20141007_bin.286.fa.txt"   "20141007_bin.715.fa.txt")
+
+
+
+#for loop to screen the massive contigs file by each of your MAGs' contig content. Then write to a text file for each. 
+
+
+
+mkdir contigs2
+
+
+
+for g in "${arr3[@]}"
+do
+	grep -f 16S_pos_gen/contigs/$g depth_20141007.txt > 16S_pos_gen/contigs/contigs2/$g
+done
+
+declare -a arr3=("20141007_bin.246.fa.txt" "20141007_bin.250.fa.txt" "20141007_bin.325.fa.txt" "20141007_bin.716.fa.txt" "20141007_bin.795.fa.txt" "20141007_bin.879.fa.txt" "20141007_bin.1016.fa.txt" "20141007_bin.1033.fa.txt" "20141007_bin.1040.fa.txt")
+
+
+
+
+#Last shell script...le sigh...R is next :(
+
+
+#trim off the first  4 columns to leave only numbahs
+
+
+
+mkdir contigs3
+
+for g in "${arr2[@]}"
+do
+	awk '{print $1=$2=$3=$4=""; print $0}' $g > $g
+done
+
+
+
+
+
