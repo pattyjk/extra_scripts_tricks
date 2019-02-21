@@ -1,4 +1,4 @@
-## Scripts to convert SILVA database to SINTAX compatable database
+## Scripts to convert SILVA database in QIIME format to SINTAX compatable database
 ```
 #get latest SILVA (https://www.arb-silva.de/download/archive/qiime/)
 #wget https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_132_release.zip
