@@ -1,5 +1,8 @@
 ## Scripts to convert SILVA database to SINTAX compatable database
 ```
+#get latest SILVA (https://www.arb-silva.de/download/archive/qiime/)
+#wget https://www.arb-silva.de/fileadmin/silva_databases/qiime/Silva_132_release.zip
+
 #in linux shell
 #grab fasta headers and write to file
 grep "^>" input.fa | sed "-es/^>//" > labels.txt
