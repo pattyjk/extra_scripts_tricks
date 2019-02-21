@@ -8,30 +8,84 @@
 #grab fasta headers and write to file
 grep "^>" input.fa | sed "-es/^>//" > labels.txt
 
+#remove '>'
+sed -i 's/>//' labels.txt
+
 #in R
 R
 # R v. 3.4.1
 tax_labels<-read.delim('labels.txt', header=F)
-silva_anno<-read.delim('', header=F)
+dim(tax_labels)
+#166393      1
+
+silva_anno<-read.delim("consensus_taxonomy_7_levels.txt", header=F)
+dim(silva_anno)
+#166393      2
+
+#fix headers
+names(silva_anno)<-c("Seq_name", "tax")
 
 #merge together, puts taxonomy in same order
-seq_tax<-merge(tax_labels, silva_anno, by.x='', by.y='')
+seq_tax<-merge(tax_labels, silva_anno, by.x='V1', by.y='Seq_name', sort=F)
+dim(seq_tax)
+#166393      2
 
 #add semicolon and 'tax=' to sequence name
+seq_tax$add<-rep(";tax=", length(nrow(seq_tax)))
+seq_tax$V1<-paste(seq_tax$V1, seq_tax$add, sep="")
+seq_tax<-seq_tax[,-3]
 
-#clean up taxonomy names
->D50541;tax=f:Aerococcaceae,g:Abiotrophia,s:Abiotrophia_defectiva;
+#clean up taxonomy names to be Sintax compatiable
+seq_tax$tax<-gsub("D_0__", "k:", seq_tax$tax)
+seq_tax$tax<-gsub("D_1__", "p:", seq_tax$tax)
+seq_tax$tax<-gsub("D_2__", "c:", seq_tax$tax)
+seq_tax$tax<-gsub("D_3__", "o:", seq_tax$tax)
+seq_tax$tax<-gsub("D_4__", "f:", seq_tax$tax)
+seq_tax$tax<-gsub("D_5__", "g:", seq_tax$tax)
+seq_tax$tax<-gsub("D_6__", "s:", seq_tax$tax)
+seq_tax$tax<-gsub(";", ",", seq_tax$tax)
+seq_tax$tax<-gsub("[[:space:]]", "_", seq_tax$tax)
 
 #add semi colon to end of taxonomy
+seq_tax$add2<-rep(";", length(nrow(seq_tax)))
+seq_tax$tax<-paste(seq_tax$tax, seq_tax$add2, sep="")
+seq_tax<-seq_tax[,-3]
 
-#remove any spaces in header and any ';', ',', and '()', which are no bueno
+#merge taxonomy to sequence name
+seq_tax$full<-paste(seq_tax$V1, seq_tax$tax, sep='')
 
 #write to file
-write.table(X, 'X.txt', row.names=F, quote=F, sep='\t')
+seq_tax2<-seq_tax[,3]
+write.table(seq_tax2, 'seq_tax.txt', sep='\t', quote=F, row.names=F)
 quit()
+n
 
-#replace fasta names using a perl script
-https://www.biostars.org/p/103089/
-
-#database is ready to be used with SINTAX
+#remove header on file
+tail -n +2 seq_tax.txt > seq_tax2.txt 
 ```
+
+## Rename
+Replace fasta names using a perl script, needs to be copy and pasted into a text file
+```
+use strict;
+use warnings;
+
+my @arr;
+
+while (<>) {
+    chomp;
+    push @arr, $_ if length;
+    last if eof;
+}
+
+while (<>) {
+    print /^>/ ? shift(@arr) . "\n" : $_;
+}
+#taken from: https://www.biostars.org/p/103089/
+```
+## Run perl script
+```
+perl fix_header.pl seq_tax2.txt 97_otus_16S.fasta > SILVA_128_SINTAX.fna
+```
+
+Database is ready to be used with SINTAX
