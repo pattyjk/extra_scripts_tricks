@@ -6,10 +6,7 @@
 
 #in linux shell
 #grab fasta headers and write to file
-grep "^>" input.fa | sed "-es/^>//" > labels.txt
-
-#remove '>'
-sed -i 's/>//' labels.txt
+grep "^>"  silva_132_90_16S.fna | sed "-es/^>//" > labels.txt
 
 #in R
 R
@@ -99,18 +96,26 @@ while (<>) {
 ```
 ## Run perl script
 ```
-perl fix_header.pl seq_tax2.txt 97_otus_16S.fasta > SILVA_128_SINTAX.fna
+perl fix_header.pl seq_tax2.txt silva_132_90_16S.fna > SILVA_132-90.fna
 #sintax of script perl fix_header.pl new_headers database > output
+
+#find incomplete taxonomy annotations
+grep 'tax=;' SILVA_132-90.fna > bad_seqs.txt
+sed -i 's/>//' bad_seqs.txt
+
+#remove incomplete taxonomy information
+#chmod 777 faSomeRecords
+./faSomeRecords -exclude SILVA_132-90.fna bad_seqs.txt SILVA_132-90_SINTAX.fna
 ```
 
 ## Make into 'udb' file for faster loading
 ```
-./usearch64 -makeudb_sintax SILVA_128_SINTAX.fna -output SILVA_128_SINTAX.udb
+./usearch64 -makeudb_sintax SILVA_132-90_SINTAX.fna -output SILVA_132-90_SINTAX.udb
 ```
 
-## Verify names with USEARCH binary
+## Verify names with USEARCH binary by running test taxonomy
 ```
-./usearch64 -sintax test.fna -db SILVA_128_SINTAX.fna -tabbedout reads.sintax -strand both -sintax_cutoff 0.8
+./usearch64 -sintax test.fna -db SILVA_132-90_SINTAX.udb -tabbedout reads.sintax -strand both -sintax_cutoff 0.8
 
 ```
 Database is ready to be used with SINTAX
