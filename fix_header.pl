@@ -12,4 +12,4 @@ while (<>) {
 while (<>) {
     print /^>/ ? shift(@arr) . "\n" : $_;
 }
-#taken from: https://www.biostars.org/p/103089/
+
