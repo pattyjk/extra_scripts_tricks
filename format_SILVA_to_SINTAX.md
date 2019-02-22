@@ -1,4 +1,5 @@
 ## Scripts to convert SILVA database in QIIME format to SINTAX compatable database
+
 ```
 #get latest SILVA (https://www.arb-silva.de/download/archive/qiime/)
 #just need to change the #'s in the file below to change version. 
@@ -103,7 +104,8 @@ perl fix_header.pl seq_tax2.txt silva_132_90_16S.fna > SILVA_132-90.fna
 grep 'tax=;' SILVA_132-90.fna > bad_seqs.txt
 sed -i 's/>//' bad_seqs.txt
 
-#remove incomplete taxonomy information
+#remove incomplete taxonomy information with faSomeRecords
+#need faSomeRecords binary, in this GitHub repo
 #chmod 777 faSomeRecords
 ./faSomeRecords -exclude SILVA_132-90.fna bad_seqs.txt SILVA_132-90_SINTAX.fna
 ```
