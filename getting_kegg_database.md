@@ -20,12 +20,43 @@ done < <(sed '/^[#!+]/d;s/<[^>]*>//g;s/^./& /' < "$kegfile") > kegg_full.txt
 ```
 R
 library(tidyr)
+library(dplyr)
 
 #read in data
-kegg_full<-read.delim("kegg_full.txt", header=F, sep='\t')
+kegg_full<-read.delim("/Users/patty/Dropbox/kegg_full.txt", header=F, sep='\t')
 
 #give columns names
 names(kegg_full)<-c("Level1", 'Level2', 'Level3', 'Tot')
 kegg_full$Full<-kegg_full$Tot
 
-separate(kegg_full, Tot, sep=, into=c("KO", "Gene", "Product", "EC")
+#extract KO numbers
+kegg_full<-separate(kegg_full, Tot, extra='merge', sep=" ", into=c("KO", "OTHER") )
+
+#extract gene names
+kegg_full<-separate(kegg_full, OTHER, extra='merge', sep=";", into=c("Gene", "OTHER") )
+
+#extract EC numbers
+kegg_full<-separate(kegg_full, OTHER, extra='merge', sep="EC:", into=c("Product", "EC"))
+
+#fix product and EC columns
+kegg_full$Product<-gsub("\\[", "", kegg_full$Product)
+kegg_full$EC<-gsub("]", "", kegg_full$EC)
+kegg_full$EC<-gsub(" ", ", ", kegg_full$EC)
+
+#fix gene column so only one gene name per line
+dim(kegg_full)
+#23,236 by 8
+
+kegg_full<- kegg_full %>% 
+  mutate(Gene = strsplit(as.character(Gene), ",")) %>% 
+  unnest(Gene)
+
+dim(kegg_full)
+#30705 by 8
+
+#strip extra space from gene column
+kegg_full$Gene<-gsub("[[:space:]]", "", kegg_full$Gene)
+
+#write to a file
+write.table(kegg_full, "kegg_full_fixed.txt", row.names=F, quote=F, sep='\t')
+```
