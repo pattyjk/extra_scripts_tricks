@@ -10,3 +10,10 @@ conda create --name virsorter \
                       perl-parallel-forkmanager \
                       perl-list-moreutils
 ```
+
+## General workflow
+```
+Bin reads with metaSPades/metaBat, host prediction
+Map abundance of contigs with BowTie or bbmap
+virsorter to pull out viral contigs
+```
